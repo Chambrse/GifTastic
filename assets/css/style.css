@@ -10,3 +10,8 @@ body {
 .searchButton {
     margin: 5px 10px;
 }
+
+#gifs {
+    align-items: baseline;
+    justify-content: space-between;
+}
