@@ -1,0 +1,12 @@
+
+.gifItem {
+    margin: 10px;
+}
+
+body {
+    background-image: url("../images/retina_wood/retina_wood.png");
+}
+
+.searchButton {
+    margin: 5px 10px;
+}
