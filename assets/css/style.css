@@ -13,5 +13,11 @@ body {
 
 #gifs {
     align-items: baseline;
+    display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
+}
+
+.gifItem a.main-nav-item:hover {
+    opacity: 50%;
 }
