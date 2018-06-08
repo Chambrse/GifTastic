@@ -40,6 +40,7 @@ $(document).ready(function () {
                 imageDiv.attr("src", response.data[j].images.fixed_height_still.url);
                 imageDiv.attr("alt", response.data[j].slug);
                 imageDiv.attr("gifId", response.data[j].id);
+                imageDiv.attr("gifURL", response.data[j].images.fixed_height.url);
                 imageDiv.addClass("gifItem");
                 $("#gifs").prepend(imageDiv);
 
@@ -53,25 +54,7 @@ $(document).ready(function () {
     function startGif() {
         console.log($(this).attr("gifId"));
 
-        var imgElement = $(this);
-
-        searchURL = "http://api.giphy.com/v1/gifs?ids=" + $(this).attr("gifId") + "&api_key=Ba3PLHdmCP7VSmg0DSa9iAQmJ7fcRRuW";
-
-        $.ajax({
-            url: searchURL,
-            method: "GET"
-        }).then(function (response) {
-
-            console.log($(this));
-
-            console.log(response);
-
-            console.log(response.data[0].images.fixed_height.url);
-
-            imgElement.attr("src", response.data[0].images.fixed_height.url);
-        
-        });
-
+        $(this).attr("src", $(this).attr("gifURL"));
     }
 
     $(document).on("click", ".gifItem", startGif);
