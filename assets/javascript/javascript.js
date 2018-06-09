@@ -1,7 +1,10 @@
 $(document).ready(function () {
 
     /* the values of the buttons that show up automatically on page load */
-    var initialButtons = ["labrador", "greyhound", "bloodhound", "pug", "golden retriever", "wolfhound", "doberman", "chihuahua", "terrier", "dachsund", "great dane"];
+/*     var initialButtons = ["labrador", "greyhound", "bloodhound", "pug", "golden retriever", "wolfhound", "doberman", "chihuahua", "terrier", "dachsund", "great dane"];
+ */
+
+    var initialButtons = ["marvel", "iron man", "doctor who", "The martian", "star wars", "mad max", " blade runner 2049", "back to the future", "alien vs. predator", "jurassic park", "wall-e", "district 9"]
 
     var newButton;
     var searchURL;
@@ -20,24 +23,21 @@ $(document).ready(function () {
             newButton = $("<button>");
             newButton.addClass("searchButton btn btn-secondary");
             newButton.attr("type", "submit");
-            newButton.text(initialButtons[i]);
+            newButton.text(initialButtons[i].toUpperCase());
             $("#buttons").append(newButton);
         };
 
     };
 
     /* GET from giphy API */
-    function gifSearch() {
-
-        /* What the query will be. */
-        var term = $(this).text();
+    function gifSearch(inputString) {
 
         /* Construct the URL. */
-        searchURL = "http://api.giphy.com/v1/gifs/random?tag=" + term + "&api_key=Ba3PLHdmCP7VSmg0DSa9iAQmJ7fcRRuW";
+        searchURL = "http://api.giphy.com/v1/gifs/random?tag=" + inputString + "&api_key=Ba3PLHdmCP7VSmg0DSa9iAQmJ7fcRRuW";
 
 
         /* I specifically loop outside the AJAX call and use the random endpont in stead of search because it seems like they're sorted by relevance; you could get a bunch of pictures that made no sense. This way at least it only shows one of the badly matched photos before moving on. It is slower, though, obviously.*/
-        for (var j = 0; j < 25; j++) {
+        for (var j = 0; j < 10; j++) {
 
             /* AJAX! */
             $.ajax({
@@ -73,7 +73,6 @@ $(document).ready(function () {
 
     function startGif(mainImage) {
 
-        console.log(mainImage);
         /* This makes the .imageWrapper:hover darken not work */
         mainImage.parent().addClass("no-hover");
 
@@ -89,24 +88,35 @@ $(document).ready(function () {
                 mainImage.next().remove();
             })
 
+            /* change state */
             .attr("state", "animate");
 
     };
 
+    /* Stop the gif playing */
     function endGif(mainImage) {
+
+        /* Change source, change state, make hover-able */
         mainImage.attr('src', mainImage.attr("stillURL"))
             .attr("state", "still")
             .parent().removeClass("no-hover");
 
     }
 
+    /* add a new button with your seacrh term  */
     function addButton(inputString) {
-        initialButtons.push(InputString);
+
+        var formattedInput = inputString.trim().toUpperCase();
+
+        /* add the search term to the array, then regenerate all buttons */
+        initialButtons.push(formattedInput);
         renderButtons();
+
     };
 
-    $(document).on("click", ".gifItem", function() {
-        
+    /* on click, if its still, play it, if its animating, still it */
+    $(document).on("mousedown", ".gifItem", function() {
+
         var mainImage = $(this);
 
         if ($(this).attr("state") === "still") {
@@ -117,14 +127,31 @@ $(document).ready(function () {
 
     });
 
-    $("#submitButton").on("click", function() {
+    /* on a search button click, search */
+    $(document).on("mousedown", ".searchButton", function() {
+
+        var inputButtonTerm = $(this).text();
+        gifSearch(inputButtonTerm);
+
+    });
+
+    $("#submitButton").on("click", function(event) {
+
+        event.preventDefault();
 
         var inputString = $("#inputString").val();
 
-        console.log(inputString);
-
         addButton(inputString);
+        gifSearch(inputString);
 
+        $("#inputString").val("");
+
+    });
+
+
+    $("#resetButton").on("mousedown", function () {
+        initialButtons = ["mystery men"];
+        renderButtons();
     });
 
 });

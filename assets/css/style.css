@@ -10,7 +10,7 @@ body {
     align-items: baseline;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .imageWrapper {
@@ -34,3 +34,32 @@ body {
     justify-content: center;
     flex-wrap: wrap;
 }
+
+#header {
+    max-width: 100%;
+}
+
+hr.specialRule {
+    margin: 5px 0px;
+}
+
+@media screen and (max-width: 768px) { 
+    #gifs {
+        justify-content: center;
+    }
+
+    #buttons {
+        justify-content: space-around;
+    }
+
+    .gifItem {
+        max-width: 80vw;
+    }
+
+    .searchButton {
+        font-size: 2vw;
+    }
+};
+
+
+
