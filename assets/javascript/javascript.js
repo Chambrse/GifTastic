@@ -33,7 +33,7 @@ $(document).ready(function () {
     function gifSearch(inputString) {
 
         /* Construct the URL. */
-        searchURL = "http://api.giphy.com/v1/gifs/random?tag=" + inputString + "&api_key=Ba3PLHdmCP7VSmg0DSa9iAQmJ7fcRRuW";
+        searchURL = "https://api.giphy.com/v1/gifs/random?tag=" + inputString + "&api_key=Ba3PLHdmCP7VSmg0DSa9iAQmJ7fcRRuW";
 
 
         /* I specifically loop outside the AJAX call and use the random endpont in stead of search because it seems like they're sorted by relevance; you could get a bunch of pictures that made no sense. This way at least it only shows one of the badly matched photos before moving on. It is slower, though, obviously.*/
