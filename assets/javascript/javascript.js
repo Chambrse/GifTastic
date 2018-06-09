@@ -45,8 +45,6 @@ $(document).ready(function () {
                 method: "GET"
             }).then(function (response) {
 
-                console.log(response);
-
                 /* wrapping the image div so that a loading animation div can be .after-ed */
                 var imageWrapperDiv = $("<div class='imageWrapper position-relative'>");
 
