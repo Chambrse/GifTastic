@@ -1,11 +1,13 @@
 $(document).ready(function () {
 
     /* the values of the buttons that show up automatically on page load */
-/*     var initialButtons = ["labrador", "greyhound", "bloodhound", "pug", "golden retriever", "wolfhound", "doberman", "chihuahua", "terrier", "dachsund", "great dane"];
- */
+    /*     var initialButtons = ["labrador", "greyhound", "bloodhound", "pug", "golden retriever", "wolfhound", "doberman", "chihuahua", "terrier", "dachsund", "great dane"];
+     */
 
     var initialButtons = ["marvel", "iron man", "doctor who", "The martian", "star wars", "mad max", " blade runner 2049", "back to the future", "alien vs. predator", "jurassic park", "wall-e", "district 9"]
 
+/*     var dropDiv = $(".dropdown").detach();
+ */
     var newButton;
     var searchURL;
 
@@ -59,8 +61,11 @@ $(document).ready(function () {
 
                 imageWrapperDiv.append(imageDiv);
 
+/*                 imageWrapperDiv.append(dropDiv);
+ */
                 $("#gifs").prepend(imageWrapperDiv);
 
+                console.log(response);
 
             });
         };
@@ -113,7 +118,7 @@ $(document).ready(function () {
     };
 
     /* on click, if its still, play it, if its animating, still it */
-    $(document).on("mousedown", ".gifItem", function() {
+    $(document).on("mousedown", ".gifItem", function () {
 
         var mainImage = $(this);
 
@@ -126,14 +131,14 @@ $(document).ready(function () {
     });
 
     /* on a search button click, search */
-    $(document).on("mousedown", ".searchButton", function() {
+    $(document).on("mousedown", ".searchButton", function () {
 
         var inputButtonTerm = $(this).text();
         gifSearch(inputButtonTerm);
 
     });
 
-    $("#submitButton").on("click", function(event) {
+    $("#submitButton").on("click", function (event) {
 
         event.preventDefault();
 

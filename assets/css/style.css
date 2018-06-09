@@ -6,6 +6,11 @@ body {
     margin: 5px 10px;
 }
 
+/* .dropdown {
+    display: flex;
+
+} */
+
 #gifs {
     align-items: baseline;
     display: flex;
@@ -36,7 +41,7 @@ body {
 }
 
 #header {
-    max-width: 100%;
+    width: 100%;
 }
 
 hr.specialRule {
