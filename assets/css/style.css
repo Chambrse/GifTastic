@@ -1,10 +1,5 @@
-
-.gifItem {
-    margin: 10px;
-}
-
 body {
-    background-image: url("../images/retina_wood/retina_wood.png");
+    background-image: url("../images/retina_wood.png");
 }
 
 .searchButton {
@@ -18,6 +13,24 @@ body {
     justify-content: space-between;
 }
 
-.gifItem a.main-nav-item:hover {
-    opacity: 50%;
+.imageWrapper {
+    margin: 10px;
+}
+
+.imageWrapper:not(.no-hover):hover {
+    background-color:#000;
+    opacity:0.5;
+}
+
+.load {
+    position: absolute;
+    left: calc(50% - 12.5px);
+    top: calc(50% - 12.5px);
+    z-index: 1;
+}
+
+.input {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
 }
