@@ -6,10 +6,11 @@ body {
     margin: 5px 10px;
 }
 
-/* .dropdown {
-    display: flex;
-
-} */
+.dropup {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+}
 
 #gifs {
     align-items: baseline;
@@ -22,7 +23,7 @@ body {
     margin: 10px;
 }
 
-.imageWrapper:not(.no-hover):hover {
+.gifItem:not(.no-hover):hover {
     background-color:#000;
     opacity:0.5;
 }
@@ -46,6 +47,11 @@ body {
 
 hr.specialRule {
     margin: 5px 0px;
+}
+
+.dropdown-toggle {
+    border-radius: 0;
+    z-index: 2;
 }
 
 @media screen and (max-width: 768px) { 

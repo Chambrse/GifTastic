@@ -6,8 +6,6 @@ $(document).ready(function () {
 
     var initialButtons = ["marvel", "iron man", "doctor who", "The martian", "star wars", "mad max", " blade runner 2049", "back to the future", "alien vs. predator", "jurassic park", "wall-e", "district 9"]
 
-/*     var dropDiv = $(".dropdown").detach();
- */
     var newButton;
     var searchURL;
 
@@ -47,8 +45,19 @@ $(document).ready(function () {
                 method: "GET"
             }).then(function (response) {
 
+                console.log(response);
+
                 /* wrapping the image div so that a loading animation div can be .after-ed */
                 var imageWrapperDiv = $("<div class='imageWrapper position-relative'>");
+
+                var dropdown = $("<div class='dropup'>");
+                var droptoggle = $('<a class="dropdown-toggle btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>');
+                var dropmenu = $('<div class="dropdown-menu dropdown-menu-right">');
+                var dropitem = $('<a class="dropdown-item">Download</a><a class="dropdown-item">Favorite</a>');
+
+                dropmenu.append(dropitem);
+                dropdown.append(droptoggle);
+                dropdown.append(dropmenu);
 
                 var imageDiv = $("<img>");
                 imageDiv.attr("src", response.data.images.fixed_height_still.url);
@@ -58,16 +67,17 @@ $(document).ready(function () {
                 imageDiv.attr("gifURL", response.data.images.fixed_height.url);
                 imageDiv.attr("state", "still");
                 imageDiv.addClass("gifItem");
+                imageDiv.one("load", function () {
+                    imageWrapperDiv.append(dropdown);
+                });
 
                 imageWrapperDiv.append(imageDiv);
 
-/*                 imageWrapperDiv.append(dropDiv);
- */
                 $("#gifs").prepend(imageWrapperDiv);
 
-                console.log(response);
-
             });
+
+
         };
 
 
@@ -77,7 +87,7 @@ $(document).ready(function () {
     function startGif(mainImage) {
 
         /* This makes the .imageWrapper:hover darken not work */
-        mainImage.parent().addClass("no-hover");
+        mainImage.addClass("no-hover");
 
         /* Adds another image tag with the loading gif as as sibling inside the imageWrapper.
         AKA: start the loading animation. */
