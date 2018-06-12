@@ -133,36 +133,48 @@ $(document).ready(function () {
 
         for (var key in localStorage) {
             if (localStorage.getItem(key) != null && localStorage.getItem(key).length > 5) {
-                var searchURL = "https://api.giphy.com/v1/gifs/" + localStorage.getItem(key) + "?&api_key=Ba3PLHdmCP7VSmg0DSa9iAQmJ7fcRRuW";
-
-                $.ajax({
-                    url: searchURL,
-                    method: "GET",
-                    async: false
-                }).then(function (response) {
-                
-                    var imageWrapperDiv = $("<div class='imageWrapper position-relative'>");
-                    var favDiv = $("<img class='favButton' src='assets/images/star_gold.png' state='isFav'>")
-                    favDiv.attr("id", key);
-
-                    /* Make the image/gif div */
-                    var imageDiv = $("<img>");
-                    imageDiv.attr("src", response.data.images.fixed_height_still.url);
-                    imageDiv.attr("alt", response.data.slug);
-                    imageDiv.attr("gifId", response.data.id);
-                    imageDiv.attr("stillURL", response.data.images.fixed_height_still.url)
-                    imageDiv.attr("gifURL", response.data.images.fixed_height.url);
-                    imageDiv.attr("state", "still");
-                    imageDiv.addClass("gifItem");
-                    imageDiv.one("load", function () {
-                        imageWrapperDiv.append(imageDiv);
-                        imageWrapperDiv.append(favDiv);
-                    });
-
-                    $("#gifs").prepend(imageWrapperDiv);
-                });
-            };
+                keys.push(key);
+            }
         };
+
+        var searchURL = "http://api.giphy.com/v1/gifs?&api_key=Ba3PLHdmCP7VSmg0DSa9iAQmJ7fcRRuW&ids=";
+
+        for (var k = 0; k < keys.length; k++) {
+            searchURL += localStorage.getItem(keys[k]) + ",";
+            console.log(searchURL);
+        };
+
+        $.ajax({
+            url: searchURL,
+            method: "GET"
+        }).then(function (response) {
+            console.log(response);
+
+            for (var l = 0; l < response.data.length; l++) {
+                console.log(response.data[l]);
+                console.log(keys);
+
+                /* wrapping the image div so that a loading animation div can be .after-ed */
+                var imageWrapperDiv = $("<div class='imageWrapper position-relative'>");
+                var favDiv = $("<img class='favButton' src='assets/images/star_gold.png' state='isFav'>")
+                favDiv.attr("id", keys[l]);
+                /* Make the image/gif div */
+                var imageDiv = $("<img>");
+                imageDiv.attr("src", response.data[l].images.fixed_height_still.url);
+                imageDiv.attr("alt", response.data[l].slug);
+                imageDiv.attr("gifId", response.data[l].id);
+                imageDiv.attr("stillURL", response.data[l].images.fixed_height_still.url)
+                imageDiv.attr("gifURL", response.data[l].images.fixed_height.url);
+                imageDiv.attr("state", "still");
+                imageDiv.addClass("gifItem");
+                imageWrapperDiv.append(imageDiv);
+                imageWrapperDiv.append(favDiv);
+
+                $("#gifs").prepend(imageWrapperDiv);
+            }
+
+        });
+
     };
 
     $("#favsButton").on("click", displayFavs);
