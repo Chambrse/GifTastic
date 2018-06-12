@@ -8,6 +8,13 @@ $(document).ready(function () {
 
     var newButton;
     var searchURL;
+    var favID;
+
+    if (localStorage.getItem("favIDCount")) {
+        favID = parseInt(localStorage.getItem("favIDCount")) + 1;
+    } else {
+        favID = 0;
+    }
 
     renderButtons();
 
@@ -45,20 +52,11 @@ $(document).ready(function () {
                 method: "GET"
             }).then(function (response) {
 
-                console.log(response);
-
                 /* wrapping the image div so that a loading animation div can be .after-ed */
                 var imageWrapperDiv = $("<div class='imageWrapper position-relative'>");
+                var favDiv = $("<img class='favButton' src='assets/images/star_grey.png' state='notFav'>")
 
-                var dropdown = $("<div class='dropup'>");
-                var droptoggle = $('<a class="dropdown-toggle btn btn-secondary" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>');
-                var dropmenu = $('<div class="dropdown-menu dropdown-menu-right">');
-                var dropitem = $('<a class="dropdown-item">Download</a><a class="dropdown-item">Favorite</a>');
-
-                dropmenu.append(dropitem);
-                dropdown.append(droptoggle);
-                dropdown.append(dropmenu);
-
+                /* Make the image/gif div */
                 var imageDiv = $("<img>");
                 imageDiv.attr("src", response.data.images.fixed_height_still.url);
                 imageDiv.attr("alt", response.data.slug);
@@ -68,10 +66,9 @@ $(document).ready(function () {
                 imageDiv.attr("state", "still");
                 imageDiv.addClass("gifItem");
                 imageDiv.one("load", function () {
-                    imageWrapperDiv.append(dropdown);
+                    imageWrapperDiv.append(imageDiv);
+                    imageWrapperDiv.append(favDiv);
                 });
-
-                imageWrapperDiv.append(imageDiv);
 
                 $("#gifs").prepend(imageWrapperDiv);
 
@@ -82,7 +79,6 @@ $(document).ready(function () {
 
 
     };
-
 
     function startGif(mainImage) {
 
@@ -121,11 +117,55 @@ $(document).ready(function () {
 
         var formattedInput = inputString.trim().toUpperCase();
 
-        /* add the search term to the array, then regenerate all buttons */
-        initialButtons.push(formattedInput);
-        renderButtons();
+        if (formattedInput.length > 0) {
+            /* add the search term to the array, then regenerate all buttons */
+            initialButtons.push(formattedInput);
+            renderButtons();
+        };
 
     };
+
+    function displayFavs() {
+
+        $("#gifs").empty();
+
+        var keys = [];
+
+        for (var key in localStorage) {
+            if (localStorage.getItem(key) != null && localStorage.getItem(key).length > 5) {
+                var searchURL = "https://api.giphy.com/v1/gifs/" + localStorage.getItem(key) + "?&api_key=Ba3PLHdmCP7VSmg0DSa9iAQmJ7fcRRuW";
+
+                $.ajax({
+                    url: searchURL,
+                    method: "GET",
+                    async: false
+                }).then(function (response) {
+                
+                    var imageWrapperDiv = $("<div class='imageWrapper position-relative'>");
+                    var favDiv = $("<img class='favButton' src='assets/images/star_gold.png' state='isFav'>")
+                    favDiv.attr("id", key);
+
+                    /* Make the image/gif div */
+                    var imageDiv = $("<img>");
+                    imageDiv.attr("src", response.data.images.fixed_height_still.url);
+                    imageDiv.attr("alt", response.data.slug);
+                    imageDiv.attr("gifId", response.data.id);
+                    imageDiv.attr("stillURL", response.data.images.fixed_height_still.url)
+                    imageDiv.attr("gifURL", response.data.images.fixed_height.url);
+                    imageDiv.attr("state", "still");
+                    imageDiv.addClass("gifItem");
+                    imageDiv.one("load", function () {
+                        imageWrapperDiv.append(imageDiv);
+                        imageWrapperDiv.append(favDiv);
+                    });
+
+                    $("#gifs").prepend(imageWrapperDiv);
+                });
+            };
+        };
+    };
+
+    $("#favsButton").on("click", displayFavs);
 
     /* on click, if its still, play it, if its animating, still it */
     $(document).on("mousedown", ".gifItem", function () {
@@ -161,10 +201,33 @@ $(document).ready(function () {
 
     });
 
-
     $("#resetButton").on("mousedown", function () {
         initialButtons = ["mystery men"];
         renderButtons();
+    });
+
+    $(document).on("mousedown", ".favButton", function () {
+
+        if ($(this).attr("state") === "notFav") {
+
+            $(this).attr("src", "assets/images/star_gold.png");
+            $(this).attr("state", "isFav");
+            $(this).attr("id", "X" + favID);
+
+            localStorage.setItem("X" + favID, $(this).prev().attr("gifId"));
+            localStorage.setItem("favIDCount", "X" + favID);
+            favID++;
+
+        } else {
+
+            console.log($(this).attr("storageNumber"));
+
+            localStorage.removeItem($(this).attr("id"));
+            $(this).attr("src", "assets/images/star_grey.png");
+            $(this).attr("state", "notFav");
+
+        };
+
     });
 
 });

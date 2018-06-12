@@ -1,5 +1,19 @@
 body {
     background-image: url("../images/retina_wood.png");
+    overflow-y: scroll;
+}
+
+.favButton {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    width: 40px;
+    padding: 5px;
+}
+
+.favButton:hover {
+    background-color:#000;
+    opacity:0.5;
 }
 
 .searchButton {
@@ -52,6 +66,10 @@ hr.specialRule {
 .dropdown-toggle {
     border-radius: 0;
     z-index: 2;
+}
+
+a:hover {
+    cursor: pointer;
 }
 
 @media screen and (max-width: 768px) { 
