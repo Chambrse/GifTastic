@@ -137,7 +137,7 @@ $(document).ready(function () {
             }
         };
 
-        var searchURL = "http://api.giphy.com/v1/gifs?&api_key=Ba3PLHdmCP7VSmg0DSa9iAQmJ7fcRRuW&ids=";
+        var searchURL = "https://api.giphy.com/v1/gifs?&api_key=Ba3PLHdmCP7VSmg0DSa9iAQmJ7fcRRuW&ids=";
 
         for (var k = 0; k < keys.length; k++) {
             searchURL += localStorage.getItem(keys[k]) + ",";
