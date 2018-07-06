@@ -1,15 +1,13 @@
 $(document).ready(function () {
 
-    /* the values of the buttons that show up automatically on page load */
-    /*     var initialButtons = ["labrador", "greyhound", "bloodhound", "pug", "golden retriever", "wolfhound", "doberman", "chihuahua", "terrier", "dachsund", "great dane"];
-     */
-
+    /* populated with some sci-fi related example buttons */
     var initialButtons = ["marvel", "iron man", "doctor who", "The martian", "star wars", "mad max", " blade runner 2049", "back to the future", "alien vs. predator", "jurassic park", "wall-e", "district 9"]
 
     var newButton;
     var searchURL;
     var favID;
 
+    /* if there are already some favorites, continure counting up so you don't overwrite the old favorites */
     if (localStorage.getItem("favIDCount")) {
         favID = parseInt(localStorage.getItem("favIDCount")) + 1;
     } else {
@@ -82,7 +80,7 @@ $(document).ready(function () {
 
     function startGif(mainImage) {
 
-        /* This makes the .imageWrapper:hover darken not work */
+        /* This makes the .imageWrapper:hover darken not work (you don't want the gif to be dark when it is playing) */
         mainImage.addClass("no-hover");
 
         /* Adds another image tag with the loading gif as as sibling inside the imageWrapper.
@@ -125,12 +123,15 @@ $(document).ready(function () {
 
     };
 
+    /* take the locally stored favs and display them */
     function displayFavs() {
 
+        /* clear already loaded gifs */
         $("#gifs").empty();
 
         var keys = [];
 
+        /* take each gif id (thats not the count) */
         for (var key in localStorage) {
             if (localStorage.getItem(key) != null && localStorage.getItem(key).length > 5) {
                 keys.push(key);
@@ -139,17 +140,20 @@ $(document).ready(function () {
 
         var searchURL = "https://api.giphy.com/v1/gifs?&api_key=Ba3PLHdmCP7VSmg0DSa9iAQmJ7fcRRuW&ids=";
 
+        /* add all the gif ids to the request URL */
         for (var k = 0; k < keys.length; k++) {
             searchURL += localStorage.getItem(keys[k]) + ",";
             console.log(searchURL);
         };
 
+        /* AJAX! */
         $.ajax({
             url: searchURL,
             method: "GET"
         }).then(function (response) {
             console.log(response);
 
+            /* display the favorites */
             for (var l = 0; l < response.data.length; l++) {
                 console.log(response.data[l]);
                 console.log(keys);
@@ -218,6 +222,7 @@ $(document).ready(function () {
         renderButtons();
     });
 
+    /* when you click the star, change it to a gold start and add the id to local storage */
     $(document).on("mousedown", ".favButton", function () {
 
         if ($(this).attr("state") === "notFav") {
