@@ -12,9 +12,9 @@ This app uses AJAX and the giphy api; put together in a way to allow returning a
 
 Upon loading the page, simply click one of the pre-loaded buttons or type in a search term to get some gifs. Once loaded, click a desired gif to play it. Click again to stop the gif. 
 
-```
+
 ![Image of gif emporium](https://i.imgur.com/1262n05.png)
-```
+
 To add a gif to your favorites, click the star in the lower-right hand corner. Clicking the star again will remove it from the list. 
 
 To view your favorites, click on the favorites button at the top of the screen.
