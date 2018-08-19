@@ -3,17 +3,17 @@ $(document).ready(function () {
     /* populated with some sci-fi related example buttons */
     var initialButtons = ["marvel", "iron man", "doctor who", "The martian", "star wars", "mad max", " blade runner 2049", "back to the future", "alien vs. predator", "jurassic park", "wall-e", "district 9"]
 
-    var newButton;
     var searchURL;
     var favID;
 
-    /* if there are already some favorites, continure counting up so you don't overwrite the old favorites */
+    /* if there are already some favorites, continue counting up so you don't overwrite the old favorites */
     if (localStorage.getItem("favIDCount")) {
         favID = parseInt(localStorage.getItem("favIDCount")) + 1;
     } else {
         favID = 0;
     }
 
+    //initial button render
     renderButtons();
 
     /* Generating the buttons */
@@ -24,6 +24,7 @@ $(document).ready(function () {
 
         var newButton;
 
+        // loop over initialbuttons array and make a button for each, append
         for (var i = 0; i < initialButtons.length; i++) {
             newButton = $("<button>");
             newButton.addClass("searchButton btn btn-secondary");
@@ -68,6 +69,7 @@ $(document).ready(function () {
                     imageWrapperDiv.append(favDiv);
                 });
 
+                // Smack it on the page
                 $("#gifs").prepend(imageWrapperDiv);
 
             });
@@ -204,6 +206,7 @@ $(document).ready(function () {
 
     });
 
+    //submit a new search term and add a new button to the top of the page.
     $("#submitButton").on("click", function (event) {
 
         event.preventDefault();
@@ -217,12 +220,13 @@ $(document).ready(function () {
 
     });
 
+    // Reset all the buttons
     $("#resetButton").on("mousedown", function () {
         initialButtons = ["mystery men"];
         renderButtons();
     });
 
-    /* when you click the star, change it to a gold start and add the id to local storage */
+    /* when you click the star, change it to a gold star and add the id to local storage */
     $(document).on("mousedown", ".favButton", function () {
 
         if ($(this).attr("state") === "notFav") {
